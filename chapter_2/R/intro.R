@@ -40,8 +40,8 @@ hist(y)
 par(mfrow=c(1, 1))
 
 # reading data
-setwd("~/Documents/stat_learning/chapter_2")
-Auto = read.csv("../csv_files/Auto.csv")
+setwd("~/Documents/stat_learning/chapter_2/R")
+Auto = read.csv("../../csv_files/Auto.csv")
 dim(Auto)
 class(Auto) # data.frame
 summary(Auto) # list all the elements of automobiles
@@ -54,8 +54,8 @@ search()
 plot(cylinders, mpg)
 cylinders = as.factor(cylinders)
 
-setwd("~/Documents/stat_learning/chapter_2")
-Auto = read.csv("../csv_files/Auto.csv", 
+setwd("~/Documents/stat_learning/chapter_2/R")
+Auto = read.csv("../../csv_files/Auto.csv", 
                 na.strings = "?", # any time it sees a particular character or set of characters (such as a question mark), it should be treated as a missing element of the data matrix
                 stringsAsFactors = TRUE # any variable containing character strings should be interpreted as a qualitative variable
                 )

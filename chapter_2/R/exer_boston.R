@@ -48,6 +48,7 @@ print(median(Boston[["ptratio"]]))
 # Comment on your findings.
 min_index = which.min(Boston$medv)
 Boston[min_index, ]
+predictors = names(Boston)
 for (var in predictors) {
   if (var == "medv") {
     next
@@ -64,6 +65,7 @@ for (var in predictors) {
   }
   print(to_print)
 }
+# [1] "[crim] = 38.351800 higher than mean: 3.613524"
 # [1] "[zn] lower than mean: 11.363636"
 # [1] "[indus] higher than mean: 11.136779"
 # [1] "[chas] lower than mean: 0.069170"

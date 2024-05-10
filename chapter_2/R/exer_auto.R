@@ -1,5 +1,5 @@
 csv_path = "~/Documents/stat_learning/csv_files"
-setwd("~/Documents/stat_learning/chapter_2")
+setwd("~/Documents/stat_learning/chapter_2/R")
 Auto = read.csv(paste(csv_path, "Auto.csv", sep = "/"), 
                 na.strings = "?", # so that na.omit(Auto) can work
                 stringsAsFactors = TRUE)
