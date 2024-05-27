@@ -29,7 +29,7 @@ summary(model2)
 
 summary(model1)
 summary(model2)
-# they have similar R-squared, with a slight improvment in model2
+# they have similar R-squared, with a slight improvement in model2
 anova(model1, model2)
 # anova() suggests no significant superior of model2 over model1, and vice versa
 
