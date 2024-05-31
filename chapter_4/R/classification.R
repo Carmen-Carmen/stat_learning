@@ -288,6 +288,11 @@ summary(mod.lm)
 #   mnthDec                     46.458      4.271  10.878  < 2e-16 ***
 
 # make the coefficients for the last levels of hr and mnth not zero, i.e. not baseline
+# sum contrasts: 
+# Each level of the categorical variable is assigned a contrast vector. 
+# For a factor with k levels, sum contrasts result in  k − 1 dummy variables. 
+# The k-th level is not assigned a dummy variable directly but is inferred 
+# such that the sum of all coefficients (including the  k k-th level) equals zero.
 contrasts(Bikeshare$hr) = contr.sum(24)
 contrasts(Bikeshare$mnth) = contr.sum(12)
 mod.lm2 = lm(
@@ -314,6 +319,8 @@ summary(mod.lm2)
 sum((predict(mod.lm) - predict(mod.lm2))^2) # nearly 0, though difference in coding of qualitative predictors
 all.equal(predict(mod.lm), predict(mod.lm2))
 
-coef.months = c(coef(mod.lm)[2:12], -sum(coef(mod.lm2)[2:12]))
-plot(coef.months, xlab = "Month", ylab = "Coefficient", xaxt = "n", col = "blue", 
+coef.months = c(coef(mod.lm2)[2:12], -sum(coef(mod.lm2)[2:12])) # coef for December is the negative of the sum of all the others'
+plot(coef.months, xlab = "Month", ylab = "Coefficient", 
+     xaxt = "n", # xaxt = "n" means not drawing the x axis
+     col = "blue", 
      pch = 19, type = "o")
