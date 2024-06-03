@@ -1,4 +1,7 @@
 library(ISLR2)
+
+setwd("~/Documents/stat_learning/chapter_4/R")
+
 names(Smarket)
 dim(Smarket)
 
@@ -270,6 +273,8 @@ table(glm.pred, test.Y)
 attach(Bikeshare)
 dim(Bikeshare)
 names(Bikeshare)
+
+# first, try fitting with linear regression
 mod.lm = lm(
   bikers ~ mnth + hr + workingday + temp + weathersit, 
   data = Bikeshare
@@ -319,8 +324,56 @@ summary(mod.lm2)
 sum((predict(mod.lm) - predict(mod.lm2))^2) # nearly 0, though difference in coding of qualitative predictors
 all.equal(predict(mod.lm), predict(mod.lm2))
 
+par(mfrow = c(1, 2))
+# reproducing Fig 4.13 (left)
 coef.months = c(coef(mod.lm2)[2:12], -sum(coef(mod.lm2)[2:12])) # coef for December is the negative of the sum of all the others'
 plot(coef.months, xlab = "Month", ylab = "Coefficient", 
      xaxt = "n", # xaxt = "n" means not drawing the x axis
      col = "blue", 
      pch = 19, type = "o")
+axis(side = 1, at = 1:12, 
+     labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"))
+
+# reproducing Fig 4.13 (right)
+coef.hrs = coef(mod.lm2)[13:(13 + 22)]
+coef.hrs = c(coef.hrs, -sum(coef.hrs))
+coef.hrs
+plot(coef.hrs, xlab = "Hour", ylab = "Coefficient", 
+     xaxt = "n", 
+     col = "blue", 
+     pch = 19, type = "o")
+axis(side = 1, at = c(5, 10, 15, 20))
+par(mfrow = c(1, 1))
+
+# next, try fitting with poisson regression
+mod.pois = glm(
+  bikers ~ mnth + hr + workingday + temp + weathersit, 
+  data = Bikeshare, family = poisson # indicating to fit the glm using the eta of poisson regression, i.e. eta(Y) = log(Y)
+)
+summary(mod.pois)
+
+par(mfrow = c(1, 2))
+# reproducing Fig 4.15 (left)
+coef.months = c(coef(mod.pois)[2:12], -sum(coef(mod.pois)[2:12])) # coef for December is the negative of the sum of all the others'
+plot(coef.months, xlab = "Month", ylab = "Coefficient", 
+     xaxt = "n", # xaxt = "n" means not drawing the x axis
+     col = "blue", 
+     pch = 19, type = "o")
+axis(side = 1, at = 1:12, 
+     labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"))
+
+# reproducing Fig 4.15 (right)
+coef.hrs = coef(mod.pois)[13:(13 + 22)]
+coef.hrs = c(coef.hrs, -sum(coef.hrs))
+coef.hrs
+plot(coef.hrs, xlab = "Hour", ylab = "Coefficient", 
+     xaxt = "n", 
+     col = "blue", 
+     pch = 19, type = "o")
+axis(side = 1, at = c(5, 10, 15, 20))
+par(mfrow = c(1, 1))
+
+plot(predict(mod.lm2), 
+     predict(mod.pois, type = "response")) # for poisson regression, type must be specified to "response", otherwise it will output beta0 + beta1X1 instead of exp(beta0 + beta1X1)
+abline(0, 1, col = 2, lwd = 3)
+# the predictions from the poisson regression model are non-negative, providing more meaningful prediction for count variables
