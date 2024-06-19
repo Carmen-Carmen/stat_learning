@@ -67,9 +67,12 @@ lda_pred(Boston, predictors, "is_high_crime")
 knn_pred = function(data, predictors, response) {
   set.seed(1)
   train_filter = get_random_subset_indices(data, subset_fraction = .9)
-  train.X = data[train_filter, predictors, drop = FALSE]
+  X = as.data.frame(scale(data[predictors]))
+  train.X = X[train_filter, , drop=FALSE]
+  # train.X = scale(train.X)
   train.Y = data[train_filter, response]
-  test.X = data[-train_filter, predictors, drop = FALSE]
+  test.X = X[-train_filter, , drop=FALSE]
+  # test.X = scale(test.X)
   best_k = 0
   highest_accuracy = 0
   test_set = data[-train_filter, ]
@@ -100,7 +103,7 @@ nb_pred = function(data, predictors, response) {
 }
 nb_pred(Boston, predictors, "is_high_crime")
 
-# predictors is a vector of strings, i.e. colnames
+# predictors is a vector of strings, i.e. col_names
 classify_prediction = function(data, predictors, response) {
   set.seed(1)
   
@@ -150,3 +153,4 @@ legend("bottomright", legend = c("logistic regression",
                                  "naive Bayes"), 
        col = c("red", "blue", "green", "orange"), 
        lty = 1, pch = 1)
+
