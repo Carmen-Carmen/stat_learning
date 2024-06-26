@@ -73,8 +73,11 @@ nb.table = table(nb.pred, Auto.test$mpg01)
 
 # (h) KNN
 library(class)
-train.X = Auto[train_filter, c("cylinders", "weight", "acceleration"), drop = FALSE]
-test.X = Auto[!train_filter, c("cylinders", "weight", "acceleration"), drop = FALSE]
+standardized.X = as.data.frame(scale(Auto[c("cylinders", "weight", "acceleration")]))
+# train.X = Auto[train_filter, c("cylinders", "weight", "acceleration"), drop = FALSE]
+# test.X = Auto[!train_filter, c("cylinders", "weight", "acceleration"), drop = FALSE]
+train.X = standardized.X[train_filter, ]
+test.X = standardized.X[!train_filter, ]
 train.Y = Auto[train_filter, "mpg01"]
 set.seed(1)
 error_list = c()
@@ -86,4 +89,4 @@ for (k_val in 1:40) {
 }
 plot(1:40, error_list, type = "o", 
      xlab = "k", ylab = "error_rate")
-error_list[25] # lowest error rate for KNN is 16.5% for k = 25 and 26
+error_list[25] # lowest error rate for KNN is 12.9% after k = 19

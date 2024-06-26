@@ -188,3 +188,16 @@ summary(
 # (Intercept)            23.44592  0.2209163 106.13030 2.752212e-289
 # poly(horsepower, 2)1 -120.13774  4.3739206 -27.46683  4.169400e-93
 # poly(horsepower, 2)2   44.08953  4.3739206  10.08009  2.196340e-21
+
+setwd("~/Downloads/stat_learning/chapter_5/R")
+load("./5.R.Rdata")
+lm.fit = glm(y ~ X1 + X2, data = Xy)
+summary(lm.fit)
+matplot(Xy, type="l")
+
+boot.fn = function(data, index) {
+  coef(lm(y ~ X1 + X2, data = data, subset = index))
+}
+boot(Xy, boot.fn, nrow(Xy) * 0.1)
+plot(boot(Xy, boot.fn, nrow(Xy) * 0.1))
+
