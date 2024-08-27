@@ -3,11 +3,11 @@ library(boot)
 attach(Boston)
 
 # (a)
-medv_est_mean = mean(medv)
+medv_est_mean = mean(medv) # 22.53
 
 # (b)
 # sd = √var
-medv_est_mean_SE = sd(medv) / sqrt(length(medv))
+medv_est_mean_SE = sd(medv) / sqrt(length(medv)) # 0.4089
 
 # (c)
 boot.fn = function(data, index) {

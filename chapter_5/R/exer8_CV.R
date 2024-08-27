@@ -25,6 +25,10 @@ for (i in 1:4) {
   to_print = sprintf("LOOCV error of polynomial degree %d: %.3f\n", i, error)
   cat(to_print)
 }
+# LOOCV error of polynomial degree 1: 7.288
+# LOOCV error of polynomial degree 2: 0.937
+# LOOCV error of polynomial degree 3: 0.957
+# LOOCV error of polynomial degree 4: 0.954
 
 # (d)
 set.seed(999)

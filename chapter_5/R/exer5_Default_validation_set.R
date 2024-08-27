@@ -10,6 +10,11 @@ glm.fit = glm(default ~ income + balance,
               data = Default, 
               family = binomial)
 summary(glm.fit)
+# Coefficients:
+#                 Estimate Std. Error z value Pr(>|z|)    
+#   (Intercept) -1.154e+01  4.348e-01 -26.545  < 2e-16 ***
+#   income       2.081e-05  4.985e-06   4.174 2.99e-05 ***
+#   balance      5.647e-03  2.274e-04  24.836  < 2e-16 ***
 
 nrow(Default)
 # (b) validation set approach
@@ -42,6 +47,9 @@ for (i in 2:4) {
   validation_set_error_fraction = sum(glm.pred != Default$default[-train_filter]) / length(glm.pred)
   print(validation_set_error_fraction)
 }
+# [1] 0.0238
+# [1] 0.0264
+# [1] 0.0256
 
 # (d) include the "student" dummy variable
 set.seed(1)
